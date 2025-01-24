@@ -1,9 +1,6 @@
 #include "../include/serialization.h"
 
-
-//using namespace EventSystem;
 using namespace ObjectModel;
-
 
 int main(int argc, char** argv)
 {
@@ -11,6 +8,7 @@ int main(int argc, char** argv)
 
 
 #if 1
+	// test PRIMITIVE data type 
 	int32_t foo = 5;
 	//std::cout << (foo >> 24) << std::endl;
 	//std::cout << (foo >> 16) << std::endl;
@@ -23,17 +21,17 @@ int main(int argc, char** argv)
 	Primitive* p = Primitive::create("int32", Type::I32, foo);
 	Core::Util::retrivenNsave(p);
 
-	
+	//test ARRAY
 	std::vector<int64_t> data{ 1, 2, 3, 4 };
 	Array* arr = Array::createArray("array", Type::I64, data);
 	Core::Util::retrivenNsave(arr);
 
-
+	//test STRING
 	std::string name = "name";
 	Array* str = Array::createString("string", Type::I8, name);
 	Core::Util::retrivenNsave(str);
 
-
+	// test OBJECT
 	Object Test("Test");
 	Test.addEntitie(p);
 	Test.addEntitie(arr);
@@ -47,6 +45,7 @@ int main(int argc, char** argv)
 	Core::Util::retrivenNsave(&Test);
 #endif
 
+// Test EventSystem
 #if 0
 	System Foo("Foo");
 	Event* e = new KeybourdEvent('a', true, false);          
