@@ -22,9 +22,10 @@ namespace ObjectModel {
 			name("unknow"),
 			wrapper(0),
 			nameLength(0),
-			size(sizeof(nameLength) + sizeof(wrapper) + sizeof(size)) { }; //protected ����������� - ������ ��������� ������ ������ �� ���. ����� ������ �������������� ������ ��������� �������
-		// ��� ����� ������� ����� ����������� ������� 
-		//virtual void pack() = 0; 
+			size(sizeof(nameLength) + sizeof(wrapper) + sizeof(size)) { }; //protected конструктор - нельзя создавать объект класса из вне.
+			// Могут только унаследованные классы совдавать объекты
+			// или нужно создать чисто виртуальную фукнцию 
+			//virtual void pack() = 0; 
 	public:
 		inline int32_t  getSize() const { return this->size; };
 
@@ -35,8 +36,8 @@ namespace ObjectModel {
 		}
 
 		std::string  getName() const { return this->name; };
+		
 		virtual void pack(std::vector<int8_t>*, int16_t*) = 0;
 
 	};
-
-}
+}      //namespace ObjectModel

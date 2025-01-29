@@ -1,10 +1,10 @@
 #include "../include/core.h"
 
-bool Core::Util::isLittleEndian()
+bool Core::Util::isLittleEndian(uint8_t a)
 {
 	// 0x00 0x00 0x00 0000 0101   32 ���� = 4 �����   - LE 
 	// 0000 0101 0x00 0x00 0x00  -  BE
-	int8_t a = 5;
+	
 	std::string result = std::bitset<8>(a).to_string();
 	if (result.back() == '1')
 		return true;

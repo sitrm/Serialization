@@ -10,7 +10,7 @@ namespace ObjectModel {
 
 	class Object : public Root {
 	private:
-		std::vector<Root*> entities;    // �������� �� ������ �������� 
+		std::vector<Root*> entities;     // сущность из разных объектов 
 		int16_t count = 0;
 	public:
 
@@ -20,7 +20,7 @@ namespace ObjectModel {
 			size += sizeof(count);
 		}
 
-		void addEntitie(Root* r) {
+		void addEntity(Root* r) {
 			this->entities.push_back(r);
 			count += 1;
 			size += r->getSize();
@@ -33,7 +33,7 @@ namespace ObjectModel {
 				}
 			}
 			std::cout << "no as such" << std::endl;
-			return new Object("ninja");         // ���� - ����������� ����, ��� �� ������ ����� ������ 
+			return new Object("ninja");          // рофл - индификатор того, что не найден такой объект 
 		}
 
 		void pack(std::vector<int8_t>* buffer, int16_t* iterator) {
@@ -47,6 +47,7 @@ namespace ObjectModel {
 			}
 			Core::encode<int32_t>(buffer, iterator, size);
 		}
+		std::string getName() const { return this->name; }
 	};
 
 }

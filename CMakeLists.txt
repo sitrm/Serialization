@@ -21,4 +21,24 @@ file(GLOB all_SRCS
 )
 
 
+# Включение экспорта всех символов для создания динамической библиотеки
+# в OC Windows
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)  
+
+
+#Эта строка проверяет, является ли текущая директория корневой директорией проекта.
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+        
+        option(SERIALIZATION_TESTS "build tests (or no)" ON)
+
+        if (SERIALIZATION_TESTS)
+                add_library(Serialization ${all_SRCS})
+                enable_testing()  #  ВКЛ тестирование 
+                add_subdirectory(tests)      # добавление подкаталога для тестов 
+        endif()
+endif()
+
+
 add_executable(AppSerial ${all_SRCS})
+
+

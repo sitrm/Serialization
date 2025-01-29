@@ -3,8 +3,8 @@
 using namespace ObjectModel;
 
 int main(int argc, char** argv)
-{
-	assert(Core::Util::isLittleEndian());
+{	uint8_t a = 5;
+	assert(Core::Util::isLittleEndian(a));  // провекра на LittleEndian
 
 
 #if 1
@@ -33,30 +33,20 @@ int main(int argc, char** argv)
 
 	// test OBJECT
 	Object Test("Test");
-	Test.addEntitie(p);
-	Test.addEntitie(arr);
-	Test.addEntitie(str);
+	Test.addEntity(p);
+	Test.addEntity(arr);
+	Test.addEntity(str);
 
 	Object Test2("Test2");
-	Test2.addEntitie(p);
+	Test2.addEntity(p);
 	Core::Util::retrivenNsave(&Test2);
 
-	Test.addEntitie(&Test2);
+	Test.addEntity(&Test2);
 	Core::Util::retrivenNsave(&Test);
 #endif
 
-// Test EventSystem
-#if 0
-	System Foo("Foo");
-	Event* e = new KeybourdEvent('a', true, false);          
-
-
-	Foo.addEvent(e);
-	KeybourdEvent* kb = static_cast<KeybourdEvent*>(Foo.getEvent());         
-
-
 	(void)argc;
 	(void)argv;
-#endif
+
 	return 0;
 }
