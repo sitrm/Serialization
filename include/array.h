@@ -17,6 +17,8 @@ namespace ObjectModel {
 			size += sizeof(type) + sizeof(count);
 		}
 	public:
+
+		int32_t getCount() const { return this->count;}
 		template<typename T>
 		static Array* createArray(std::string name, Type type, std::vector<T> value) {
 			Array* arr = new Array();
@@ -52,30 +54,33 @@ namespace ObjectModel {
 		}
 
 		void pack(std::vector<int8_t>* buffer, int16_t* iterator) {
-			Core::encode<std::string>(buffer, iterator, name);
-			Core::encode<int16_t>(buffer, iterator, nameLength);
+			
 			Core::encode<int8_t>(buffer, iterator, wrapper);
+			Core::encode<int16_t>(buffer, iterator, nameLength);
+			Core::encode<std::string>(buffer, iterator, name);
 			Core::encode<int8_t>(buffer, iterator, type);
 			Core::encode<int32_t>(buffer, iterator, count);
 			Core::encode<int8_t>(buffer, iterator, *data);     
 			Core::encode<int32_t>(buffer, iterator, size);
 		}
 
-		Array unpack(std::vector<int8_t>* buffer, int16_t* it){
+//deserializations--------------------------------------------
+
+		static Array unpack(std::vector<int8_t>* buffer, int16_t* it){
 			Array arr;
-			arr.wrapper = Core::decode<int8_t>(buffer, it);
+			arr.wrapper =    Core::decode<int8_t>(buffer, it);
 			arr.nameLength = Core::decode<int16_t>(buffer, it);
-			arr.name = Core::decode<std::string>(buffer, it);
-			arr.type = Core::decode<int8_t>(buffer, it);
-			arr.count = Core::decode<int32_t>(buffer, it);
-			arr.data = new std::vector<int8_t>(getTypeSize((Type)arr.type) * count);
+			arr.name =       Core::decode<std::string>(buffer, it);
+			arr.type =       Core::decode<int8_t>(buffer, it);
+			arr.count =      Core::decode<int32_t>(buffer, it);
+			arr.data = new std::vector<int8_t>(getTypeSize((Type)arr.type) * arr.count);
 			Core::decode(buffer, it, arr.data);
-			arr.size = Core::decode<int32_t>(buffer, it);
+			arr.size =       Core::decode<int32_t>(buffer, it);
 
 			return arr;
 		}
 
-		Array unpackS(std::vector<int8_t>* buffer, int16_t* it)
+		static Array unpackS(std::vector<int8_t>* buffer, int16_t* it)
 		{
 			Array str;
 			str.wrapper = Core::decode<int8_t>(buffer, it);
@@ -83,7 +88,7 @@ namespace ObjectModel {
 			str.name = Core::decode<std::string>(buffer, it);
 			str.type = Core::decode<int8_t>(buffer, it);
 			str.count = Core::decode<int32_t>(buffer, it);
-			str.data = new std::vector<int8_t>(str.count);
+			str.data = new std::vector<int8_t>(str.getCount());
 			Core::decode(buffer, it, str.data);
 			str.size = Core::decode<int32_t>(buffer, it);
 

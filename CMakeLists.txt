@@ -33,6 +33,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 
         if (SERIALIZATION_TESTS)
                 add_library(Serialization ${all_SRCS})
+                add_library(core "./src/core.cpp")
                 enable_testing()  #  ВКЛ тестирование 
                 add_subdirectory(tests)      # добавление подкаталога для тестов 
         endif()

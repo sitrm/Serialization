@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 	assert(Core::Util::isLittleEndian(a));  // провекра на LittleEndian
 
 
-#if 1
+#if 0
 	// test PRIMITIVE data type 
 	int32_t foo = 5;
 	//std::cout << (foo >> 24) << std::endl;
@@ -48,7 +48,7 @@ int main(int argc, char** argv)
 #endif
 
 //deserialization 
-#if 1
+#if 0
 	int16_t f = 23;
 	Primitive* p = Primitive::create("int16", Type::I16, f);
 	Core::Util::retrivenNsave(p);

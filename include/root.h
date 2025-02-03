@@ -14,10 +14,12 @@ namespace ObjectModel {
 	protected:
 		std::string name;
 		int16_t     nameLength;
-		int8_t      wrapper;
+		
 		int32_t     size;
 		int8_t      type;
 	public:
+		int8_t      wrapper;
+		
 		Root() :
 			name("unknow"),
 			wrapper(0),
