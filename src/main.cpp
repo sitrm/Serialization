@@ -1,5 +1,5 @@
 #include "../include/serialization.h"
-
+#include <iostream>
 using namespace ObjectModel;
 
 int main(int argc, char** argv)
@@ -43,6 +43,24 @@ int main(int argc, char** argv)
 
 	Test.addEntity(&Test2);
 	Core::Util::retrivenNsave(&Test);
+	//-----------------------------------------
+
+#endif
+
+//deserialization 
+#if 1
+	int16_t f = 23;
+	Primitive* p = Primitive::create("int16", Type::I16, f);
+	Core::Util::retrivenNsave(p);
+
+	std::vector<int8_t> result = Core::Util::load("D:/studies/VScode_project/Serialization/build/Debug/int16.ttc");
+
+	Primitive pp = Primitive::unpack(&result);
+	std::cout <<"------" <<pp.getName() << std::endl;
+	std::cout << pp.getSize() << std::endl;
+	
+
+
 #endif
 
 	(void)argc;

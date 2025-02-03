@@ -1,4 +1,5 @@
 #include "../include/core.h"
+#include "core.h"
 
 bool Core::Util::isLittleEndian(uint8_t a)
 {
@@ -22,6 +23,16 @@ void Core::Util::save(const char* file, std::vector<int8_t> buffer){
 
 	out.close();
 }
+
+//выгрузка в вектор из файла
+std::vector<int8_t> Core::Util::load(const char *path)
+{	//пишем в бинарном виде 
+    std::ifstream in(path, std::ios::binary);
+
+	std::vector<int8_t> result((std::istreambuf_iterator<char>(in)),(std::istreambuf_iterator<char>()));
+	return result;
+}
+
 
 void Core::Util::retrivenNsave(ObjectModel::Root* root)
 {

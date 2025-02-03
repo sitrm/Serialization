@@ -47,6 +47,25 @@ namespace ObjectModel {
 			}
 			Core::encode<int32_t>(buffer, iterator, size);
 		}
+
+		static Object unpack(std::vector<int8_t>* buffer, int16_t* it){
+			Object obj;
+
+			
+			
+			obj.name = Core::decode<std::string>(buffer, it);
+			obj.nameLength = Core::decode<int16_t>(buffer, it);	
+			obj.wrapper = Core::decode<int8_t>(buffer, it);
+			obj.count = Core::decode<int16_t>(buffer, it);
+
+			// for(auto e : entities){
+			// 	e.entities.push_back(e.unpack(buffer, it))
+			// }
+			obj.size = Core::decode<int32_t>(buffer, it);
+
+		}
+
+
 		std::string getName() const { return this->name; }
 	};
 

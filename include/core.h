@@ -13,6 +13,8 @@ namespace Core {
 
 		void save(const char* file, std::vector<int8_t> buffer);
 
+		std::vector<int8_t> load(const char* path);
+
 		void retrivenNsave(ObjectModel::Root* root);
 	}   // namespace Util
 
@@ -46,7 +48,7 @@ namespace Core {
 
 	template<>
 	inline void encode<std::string>(std::vector<int8_t>* buffer, int16_t* iterator, std::string value) {
-		//��� string
+		
 		for (size_t i = 0; i < value.size(); i++) {
 			encode<int8_t>(buffer, iterator, value[i]);     // decltype typename(value)::value_type - вычислять тип символа динамичсеки
 		}
@@ -58,5 +60,44 @@ namespace Core {
 			encode<T>(buffer, iterator, value[i]); 
 		}
 	}
+
+	//deserialize------------------------------------------------------------------------------------------------
+
+	template<typename T>
+	inline T decode(const std::vector<int8_t>* buffer, int16_t* it){
+		T result = 0;
+		for(unsigned i = 0; i < sizeof(T); i++){
+			// извлекаем и сдвигаем
+			T temp = (T)(*buffer)[(*it)++] << (((sizeof(T) * 8) - 8) - (i * 8));  // приведение типа - чтобы из одного байта сделать N юайт 
+			// скалдываем чтобы получить итоговый результат
+			result = result | temp;
+		}
+		return result;
+	}
+	
+
+	
+	template<>
+	inline std::string decode<std::string>(const std::vector<int8_t>* buffer, int16_t* it){
+		(*it) -= 2; // так как перед строкой хранится её длина int16_t 2 байта 
+
+		int16_t size = decode<int16_t>(buffer, it);    // достали size
+
+		std::string result((buffer->begin() + *it), (buffer->begin() + (*it + size)));
+
+		(*it) += size;
+		return result;
+	}
+
+	template<typename ...>
+	inline void decode(const std::vector<int8_t>* buffer, int16_t* it, std::vector<int8_t>* dest){
+	// десериализации данных из буфера (buffer) в целевой вектор dest
+		for (unsigned i = 0; i < dest->size(); i++)
+		{
+			(*dest)[i] = (*buffer)[(*it)++];
+		}
+	}
+
+
 
 } //namespace Core

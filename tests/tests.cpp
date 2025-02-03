@@ -31,6 +31,32 @@ TEST(Core, primitive)
     EXPECT_EQ(17, p->getSize());
 }
 
+TEST(Core, primitiveDecode)
+{
+    using namespace ObjectModel;
+
+    int16_t f = 23;
+    Primitive* p = Primitive::create("int16", Type::I16, f);
+    Core::Util::retrivenNsave(p);
+
+    std::vector<int8_t> result = Core::Util::load("D:/studies/VScode_project/Serialization/build/Debug/int16.ttc");
+
+    std::cout << "Unpacking data..." << std::endl;
+    Primitive pp = Primitive::unpack(&result);
+
+    // Check that the pointer is not nullptr
+    std::cout << "Checking pointer..." << std::endl;
+    EXPECT_NE(pp.getPtrData(), nullptr) << "Pointer pp.getPtrData() is nullptr!";
+
+    // Check that the name matches "int16"
+    std::cout << "Checking name..." << std::endl;
+    EXPECT_STREQ("int16", pp.getName().c_str()) << "Name does not match expected value 'int16'. Actual name: " << pp.getName();
+
+    // Check the size
+    std::cout << "Checking size..." << std::endl;
+    EXPECT_EQ(15, pp.getSize()) << "Size does not match expected value 15. Actual size: " << pp.getSize();
+}
+
 TEST(Core, object)
 {
     using namespace ObjectModel;
