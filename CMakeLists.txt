@@ -20,6 +20,12 @@ file(GLOB all_SRCS
         "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
 
+set(SOURCE_FILES_LIB
+    "./src/core.cpp"
+    "./src/array.cpp"
+    "./src/object.cpp"
+    "./src/primitive.cpp"
+)
 
 # Включение экспорта всех символов для создания динамической библиотеки
 # в OC Windows
@@ -32,8 +38,8 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
         option(SERIALIZATION_TESTS "build tests (or no)" ON)
 
         if (SERIALIZATION_TESTS)
-                add_library(Serialization ${all_SRCS})
-                add_library(core "./src/core.cpp")
+                #add_library(Serialization ${all_SRCS})
+                add_library(Serialization ${SOURCE_FILES_LIB})
                 enable_testing()  #  ВКЛ тестирование 
                 add_subdirectory(tests)      # добавление подкаталога для тестов 
         endif()
